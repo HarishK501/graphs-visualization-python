@@ -1,3 +1,5 @@
-venv/
+graphs-venv/
 __pycache__/
-sample.py
+sample*
+.vscode
+kruskal.png

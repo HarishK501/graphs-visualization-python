@@ -14,6 +14,7 @@ def testGraph():
     g.addEdge(4, 6, 5)
     g.addEdge(4, 5, 10)
     g.addEdge(2, 4, 20)
+    g.visualize()
 
     print("Kruskal")
     g.mstKruskal()

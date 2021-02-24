@@ -25,8 +25,8 @@ def testGraph():
     g.addEdge(4, 5, 18)
     g.addEdge(5, 2, 22)
     g.addEdge(3, 1, 17)
-
-    g.mstPrim()
+    g.visualize()
+    g.mstKruskal()
 
 
 def main():

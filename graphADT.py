@@ -1,4 +1,7 @@
-# from Binaryheap import MinHeap
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
 class Vertex:
     def __init__(self, key):
         self.id = key
@@ -44,6 +47,8 @@ class Graph:
         self.vertList = {}
         self.numVertices = 0
         self.edgeList = []
+        self.G = nx.Graph()
+        self.pos = None  # co-ordinate positions of nodes in graph
 
     #       self.front=[]
     #       self.back=[]
@@ -78,20 +83,19 @@ class Graph:
     def __iter__(self):
         return iter(self.vertList.values())
 
-    def createAdjMatrix(self):
-        cols = rows = len(self.vertList)
-        arr = [[0 for i in range(cols)] for j in range(rows)]
-        print("Index order", end="=>")
-        for i in self:
-            print(i.getId(), end=" ")
-        print()
-        for i in self:
-            for j in i.getConnections():
-                arr[i.getId()][j.getId()] = 1
-        for i in arr:
-            print(i, end="\n")
+    def visualize(self):
 
-        return arr
+        edges = []
+        for edge in self.edgeList:
+            edges.append((edge.front.id, edge.tail.id, edge.weight))
+        self.G.add_weighted_edges_from(edges)
+        self.pos = nx.spring_layout(self.G)
+        nx.draw_networkx(self.G, pos=self.pos,
+                         node_color='g', font_color='white', edge_color='blue')
+        arc_weight = nx.get_edge_attributes(self.G, 'weight')
+        nx.draw_networkx_edge_labels(
+            self.G, pos=self.pos, edge_labels=arc_weight, alpha=0.5)
+        plt.savefig('sample.png')
 
     def e_sort(self, e):
         return e.weight
@@ -131,8 +135,24 @@ class Graph:
                     disjointSet.remove(s1)
                     self.findset(e.tail.getId(), disjointSet).extend(s1)
 
+        mst_edges = []  # for visualization purpose
         for i in MST:
             print(i)
+            mst_edges.append((i.front.id, i.tail.id))
+
+        # print(mst_edges)
+        # print(self.G.edges())
+
+        edge_col = [
+            'blue' if not(edge in mst_edges) and not(edge[::-1] in mst_edges) else 'red' for edge in self.G.edges()]
+
+        arc_weight = nx.get_edge_attributes(self.G, 'weight')
+        nx.draw_networkx(self.G, pos=self.pos, node_color='g',
+                         edge_color=edge_col, font_color='white')
+        nx.draw_networkx_edge_labels(
+            self.G, pos=self.pos, edge_labels=arc_weight, alpha=0.9)
+        plt.savefig('kruskal.png')
+
         return
 
     def findStartVertex(self, mstSet):
