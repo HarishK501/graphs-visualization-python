@@ -47,8 +47,8 @@ class Graph:
         self.vertList = {}
         self.numVertices = 0
         self.edgeList = []
-        self.G = nx.Graph()
-        self.pos = None  # co-ordinate positions of nodes in graph
+        self.G = nx.Graph()  # for visualization
+        self.pos = []  # co-ordinate positions array of nodes in graph
 
     #       self.front=[]
     #       self.back=[]
@@ -97,6 +97,18 @@ class Graph:
             self.G, pos=self.pos, edge_labels=arc_weight, alpha=0.5)
         plt.savefig('sample.png')
 
+    def visualizeMST(self, mst_edges, algo):
+        edge_col = [
+            'blue' if not(edge in mst_edges) and not(edge[::-1] in mst_edges) else 'red' for edge in self.G.edges()]
+
+        arc_weight = nx.get_edge_attributes(self.G, 'weight')
+        nx.draw_networkx(self.G, pos=self.pos, node_color='g',
+                         edge_color=edge_col, font_color='white')
+        nx.draw_networkx_edge_labels(
+            self.G, pos=self.pos, edge_labels=arc_weight, alpha=0.9)
+        plt.savefig(algo + '.png')
+        return
+
     def e_sort(self, e):
         return e.weight
 
@@ -106,10 +118,10 @@ class Graph:
                 return i
 
     def mstKruskal(self):
-        # list of sorted edges based on edge weight.
+
         edgeListAsc = sorted(self.edgeList, key=self.e_sort)
-        MST = []  # spanning tree with list of edges.
-        # a list which contains the individual sets of all vertices.
+        MST = []
+
         disjointSet = []
         for i in self.vertList:
             disjointSet.append(self.vertList[i].set)
@@ -117,14 +129,14 @@ class Graph:
         # now,disjointSet contains=>[[0],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]
 
         for e in edgeListAsc:
-            # here,we find the sets where the front and tail vertex...
+
             s1 = self.findset(e.front.getId(), disjointSet)
-            # ...of the current edge are present.
+
             s2 = self.findset(e.tail.getId(), disjointSet)
 
-            if s1 == s2:  # if s1 and s2 are same, both front and tail vertices are present in the same...
-                continue  # ...set and therefore it results in a cycle.
-            if s1 != s2:                # if both sets aren't same,we append the current edge to the MST
+            if s1 == s2:
+                continue
+            if s1 != s2:
                 MST.append(e)
                 # Here , we are combining both the sets...
                 if len(s1) > len(s2) or len(s1) == len(s2):
@@ -142,16 +154,7 @@ class Graph:
 
         # print(mst_edges)
         # print(self.G.edges())
-
-        edge_col = [
-            'blue' if not(edge in mst_edges) and not(edge[::-1] in mst_edges) else 'red' for edge in self.G.edges()]
-
-        arc_weight = nx.get_edge_attributes(self.G, 'weight')
-        nx.draw_networkx(self.G, pos=self.pos, node_color='g',
-                         edge_color=edge_col, font_color='white')
-        nx.draw_networkx_edge_labels(
-            self.G, pos=self.pos, edge_labels=arc_weight, alpha=0.9)
-        plt.savefig('kruskal.png')
+        self.visualizeMST(mst_edges, "kruskal")
 
         return
 
@@ -167,7 +170,7 @@ class Graph:
 
     def mstPrim(self):
         parent = {}
-        mstSet = set()
+        mstSet = set()  # set of vertices that are a part of mst
         self.vertList[0].dist = 0
 
         while not len(mstSet) == len(self.vertList):
@@ -179,9 +182,13 @@ class Graph:
                     v.dist = u.connectedTo[v]
                     parent[v] = u
 
+        mst_edges = []
         for vertex in parent.keys():
             u = parent[vertex]
             v = vertex
+            mst_edges.append((u.id, v.id))
             print("({},{}, w={})".format(u.id, v.id, u.connectedTo[v]))
+
+        self.visualizeMST(mst_edges, "prims")
 
         return
