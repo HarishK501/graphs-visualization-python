@@ -138,9 +138,7 @@ class Graph:
                 continue
             if s1 != s2:
                 MST.append(e)
-                # Here , we are combining both the sets...
                 if len(s1) > len(s2) or len(s1) == len(s2):
-                    # ...and removing the set which is smaller
                     disjointSet.remove(s2)
                     self.findset(e.front.getId(), disjointSet).extend(s2)
                 else:
