@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{{ title }}</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Montserrat:300,600,700,900|Press+Start+2P|Kalam:wght@700|Ubuntu:900&display=swap"
+        rel="stylesheet" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/playground.css') }}" />
+
+    <!-- jQuery and JS bundle w/ Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/f95fbf7eb5.js" crossorigin="anonymous"></script>
+</head>
+
+<body style="padding:2% 5%">
+    <div class="row row-height">
+        <div id="work-area" class="col-lg-6 left">
+            <h2>Operations</h2>
+            <br><br>
+            <h4>Graph</h4>
+            <br>
+            <button class="btn btn-sm btn-primary" onclick="showAddEdgeForm()"><i class="fas fa-plus"></i> Add edge</button>
+            <div id="add-edge-form">
+                <br>
+                <div class="row">
+                    <div class="col-sm">
+                        <label for="a-val">a = </label>
+                        <input type="number" class="form-control-sm input-vals" name="" id="a-val"><br><br>
+
+                        <label for="b-val">b = </label>
+                        <input type="number" class="form-control-sm input-vals" name="" id="a-val"><br><br>
+
+                        <label for="w-val">w = </label>
+                        <input type="number" class="form-control-sm input-vals" name="" id="w-val"><br><br>
+                    </div>
+                    <div class="col-sm">
+                        <img style="width: 70%;" src="{{ url_for('static', filename='images/edge.png') }}" alt="">
+                        <br><br>
+                        <p>where,</p>
+                        <p><strong>a</strong> and <strong>b</strong> are values of nodes.</p>
+                        <p><strong>w</strong> is the weight of the edge.</p>
+                    </div>
+                </div>
+            </div>
+            <br><br><br>
+            <h4>Minimum Spanning Tree</h4>
+            <br>
+            <button class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Kruskal's MST</button>
+            <button class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Prim's MST</button>
+            <br><br><br>
+            <h4>Shortest path</h4>
+            <br>
+            <button class="btn btn-sm btn-purple"><i class="fas fa-arrows-alt"></i> Dijkstra</button>
+            
+        </div>
+        <div id="result-area" class="col-lg-6 right">
+            <h2 style="text-align: right;">Result</h2>
+            
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/playground.js') }}"></script>
+</body>
+
+</html>
+
