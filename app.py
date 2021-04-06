@@ -1,6 +1,7 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key = "jcnuTadg273gd3ybd478"
 
 
 @app.route('/')

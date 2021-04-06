@@ -4,3 +4,5 @@ sample*
 .vscode
 kruskal.png
 prims.png
+env-test.py
+tests
