@@ -35,26 +35,34 @@
     <script src="https://kit.fontawesome.com/f95fbf7eb5.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="padding:2% 5%">
+<body>
     <div class="row row-height">
-        <div id="work-area" class="col-lg-6 left">
+        <div id="work-area" class="col-lg-6 left" style="padding:2% 5%">
             <h2>Operations</h2>
             <br><br>
             <h4>Graph</h4>
             <br>
-            <button class="btn btn-sm btn-primary" onclick="showAddEdgeForm()"><i class="fas fa-plus"></i> Add edge</button>
-            <div id="add-edge-form">
+            <button id="add-edge-control" class="btn btn-sm btn-primary" onclick="showAddEdgeForm()"><i class="fas fa-plus"></i> Add edge</button>
+            <div id="add-edge-form-div" style="display: none;">
                 <br>
                 <div class="row">
-                    <div class="col-sm">
-                        <label for="a-val">a = </label>
-                        <input type="number" class="form-control-sm input-vals" name="" id="a-val"><br><br>
+                    <div class="col-sm" >
+                        <form id="add-edge-form" action="/" method="GET">
+                            <label for="a-val">a = </label>
+                            <input type="number" class="form-control-sm input-vals" name="a-val" id="a-val" required><br><br>
+    
+                            <label for="b-val">b = </label>
+                            <input type="number" class="form-control-sm input-vals" name="b-val" id="b-val" required><br><br>
+    
+                            <label for="w-val">w = </label>
+                            <input type="number" class="form-control-sm input-vals" name="w-val" id="w-val" required><br><br>
 
-                        <label for="b-val">b = </label>
-                        <input type="number" class="form-control-sm input-vals" name="" id="a-val"><br><br>
-
-                        <label for="w-val">w = </label>
-                        <input type="number" class="form-control-sm input-vals" name="" id="w-val"><br><br>
+                            <button type="submit" id="add-form-button" class="btn btn-sm btn-warning"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" onclick="hideForm()" class="btn btn-sm btn-danger"><i class="fas fa-times"></i> Cancel</button>
+                            
+                        </form>
+                        
+                        
                     </div>
                     <div class="col-sm">
                         <img style="width: 70%;" src="{{ url_for('static', filename='images/edge.png') }}" alt="">
@@ -68,17 +76,20 @@
             <br><br><br>
             <h4>Minimum Spanning Tree</h4>
             <br>
-            <button class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Kruskal's MST</button>
-            <button class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Prim's MST</button>
+            <button onclick="getKruskal()" class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Kruskal's MST</button>
+            <button onclick="getPrims()" class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Prim's MST</button>
             <br><br><br>
             <h4>Shortest path</h4>
             <br>
             <button class="btn btn-sm btn-purple"><i class="fas fa-arrows-alt"></i> Dijkstra</button>
             
         </div>
-        <div id="result-area" class="col-lg-6 right">
+        <div id="result-area" class="bg-dark col-lg-6 right" style="padding:2% 5%">
             <h2 style="text-align: right;">Result</h2>
-            
+            <br><br>
+            <div id="iframe-image">
+                <!-- <iframe src="D:\\6th sem\\15CSE387\\project\\graphs-visualization-python\\sample.png" style="height: 480px; width:100%;" title="Iframe result"></iframe> -->
+            </div>
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/playground.js') }}"></script>

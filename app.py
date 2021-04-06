@@ -1,12 +1,55 @@
-from flask import Flask, redirect, url_for, session, render_template
+from flask import Flask, redirect, url_for, render_template, request
+from flask.helpers import send_file
+
+
+from graphADT import Graph
+import pybase64
+
+
 
 app = Flask(__name__)
-app.secret_key = "jcnuTadg273gd3ybd478"
+# app.secret_key = "jcnuTadg273gd3ybd478"
+
+g = Graph()
 
 
 @app.route('/playground')
 def playground():
     return render_template("playground.html")
+
+@app.route('/addEdge', methods=["POST"])
+def addEdge():
+    x = request.get_json()
+    g.addEdge(x['a'], x['b'], x['weight'])
+    
+    # g.G = nx.Graph()
+    g.visualize()
+    # print([e for e in g.G.edges])
+    
+    with open(r"sample.png","rb") as f:
+        z = f.read()
+
+    image = pybase64.b64encode(z)
+    return image
+
+@app.route('/getKruskal', methods=["POST"])
+def getKruskal():
+    g.mstKruskal()
+    with open(r"kruskal.png","rb") as f:
+        z = f.read()
+
+    image = pybase64.b64encode(z)
+    return image
+    
+@app.route('/getPrims', methods=["POST"])
+def getPrims():
+    g.mstPrim()
+    with open(r"prims.png","rb") as f:
+        z = f.read()
+
+    image = pybase64.b64encode(z)
+    return image
+
 
 @app.route('/home')
 def home():

@@ -1,7 +1,9 @@
 import networkx as nx
-import matplotlib.pyplot as plt
-from networkx.classes.function import nodes_with_selfloops
+import matplotlib
+matplotlib.use('Agg')
 
+
+import matplotlib.pyplot as plt
 
 class Vertex:
     def __init__(self, key):
@@ -95,13 +97,13 @@ class Graph:
                          node_color='g', font_color='white', edge_color='blue')
         arc_weight = nx.get_edge_attributes(self.G, 'weight')
         nx.draw_networkx_edge_labels(
-            self.G, pos=self.pos, bbox=dict(alpha=0), edge_labels=arc_weight)
+            self.G, pos=self.pos,font_size=13, bbox=dict(alpha=0), edge_labels=arc_weight)
         plt.axis('off')
         plt.savefig('sample.png')
+        plt.clf()
 
     def visualizeMST(self, mst_edges, algo):
-        edge_col = [
-            'blue' if not(edge in mst_edges) and not(edge[::-1] in mst_edges) else 'red' for edge in self.G.edges()]
+        edge_col = ['blue' if not(edge in mst_edges) and not(edge[::-1] in mst_edges) else 'red' for edge in self.G.edges()]
 
         arc_weight = nx.get_edge_attributes(self.G, 'weight')
         nx.draw_networkx(self.G, pos=self.pos, node_color='g', node_size=500,
@@ -110,6 +112,7 @@ class Graph:
             self.G, pos=self.pos, bbox=dict(alpha=0), edge_labels=arc_weight)
         plt.axis('off')
         plt.savefig(algo + '.png')
+        plt.clf()
         return
 
     def e_sort(self, e):
@@ -150,7 +153,7 @@ class Graph:
 
         mst_edges = []  # for visualization purpose
         for i in MST:
-            print(i)
+            # print(i)
             mst_edges.append((i.front.id, i.tail.id))
 
         # print(mst_edges)
@@ -172,6 +175,7 @@ class Graph:
     def mstPrim(self):
         parent = {}
         mstSet = set()  # set of vertices that are a part of mst
+        
         self.vertList[0].dist = 0
 
         while not len(mstSet) == len(self.vertList):
@@ -188,7 +192,7 @@ class Graph:
             u = parent[vertex]
             v = vertex
             mst_edges.append((u.id, v.id))
-            print("({},{}, w={})".format(u.id, v.id, u.connectedTo[v]))
+            # print("({},{}, w={})".format(u.id, v.id, u.connectedTo[v]))
 
         self.visualizeMST(mst_edges, "prims")
 

@@ -11,6 +11,10 @@ i {
     overflow-y: scroll;
 }
 
+.right {
+    color: #fff;
+}
+
 .btn-sm {
     margin-right: 10px;
 }
