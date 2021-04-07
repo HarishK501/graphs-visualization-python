@@ -34,7 +34,7 @@ def addEdge():
 
 @app.route('/getKruskal', methods=["POST"])
 def getKruskal():
-    g.mstKruskal()
+    text = g.mstKruskal()
     with open(r"kruskal.png","rb") as f:
         z = f.read()
 

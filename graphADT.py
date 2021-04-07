@@ -96,8 +96,8 @@ class Graph:
         nx.draw_networkx(self.G, pos=self.pos, node_size=500,
                          node_color='g', font_color='white', edge_color='blue')
         arc_weight = nx.get_edge_attributes(self.G, 'weight')
-        nx.draw_networkx_edge_labels(
-            self.G, pos=self.pos,font_size=13, bbox=dict(alpha=0), edge_labels=arc_weight)
+        nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight) #  bbox=dict(alpha=0)
+        
         plt.axis('off')
         plt.savefig('sample.png')
         plt.clf()
@@ -108,9 +108,13 @@ class Graph:
         arc_weight = nx.get_edge_attributes(self.G, 'weight')
         nx.draw_networkx(self.G, pos=self.pos, node_color='g', node_size=500,
                          edge_color=edge_col, font_color='white')
-        nx.draw_networkx_edge_labels(
-            self.G, pos=self.pos, bbox=dict(alpha=0), edge_labels=arc_weight)
+        nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight)
         plt.axis('off')
+        if algo == 'kruskal':
+            plt.title("Kruskal's MST")
+        else:
+            plt.title("Prim's MST")
+        
         plt.savefig(algo + '.png')
         plt.clf()
         return
@@ -130,6 +134,7 @@ class Graph:
 
         disjointSet = []
         for i in self.vertList:
+            self.vertList[i].set = [self.vertList[i].id]
             disjointSet.append(self.vertList[i].set)
 
         # now,disjointSet contains=>[[0],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]
@@ -152,15 +157,17 @@ class Graph:
                     self.findset(e.tail.getId(), disjointSet).extend(s1)
 
         mst_edges = []  # for visualization purpose
+        res = ""
         for i in MST:
-            # print(i)
+            res += str(i) + " <br>"
             mst_edges.append((i.front.id, i.tail.id))
 
         # print(mst_edges)
         # print(self.G.edges())
         self.visualizeMST(mst_edges, "kruskal")
+        print(res)
 
-        return
+        return 
 
     def findStartVertex(self, mstSet):
         minVertex = Vertex(float('-inf'))

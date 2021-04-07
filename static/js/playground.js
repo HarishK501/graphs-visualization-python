@@ -47,7 +47,10 @@ function getPrims() {
         url: "getPrims",
         type: "POST",
         success: function (data) {
-            $('#iframe-image').html('<p>640 x 480</p><img src="data:image/png;base64,'+ data +'">');
+            $('#iframe-image').html(
+                '<p>640 x 480</p>'+
+                '<img src="data:image/png;base64,'+ data +'">'
+            );
         }
     });
 }
