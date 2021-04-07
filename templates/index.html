@@ -1,6 +1,93 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Home page</h1>
 
+<h1>Graphs</h1>
+<br>
+<div class="row">
+    <div class="col-lg-8">
+        <p>
+            A graph is a common data structure that consists of a finite set of nodes (or vertices) and a set of edges
+            connecting them.
+            A pair (x,y) is referred to as an edge, which communicates that the x vertex connects to the y vertex.
+        </p>
+        <br><br>
+        <p>Graphs are used to solve real-life problems that involve representation of the problem space as a network.
+            Examples
+            of networks include telephone networks, circuit networks, social networks (like LinkedIn, Facebook etc.).
+            For example, a single user in Facebook can be represented as a node (vertex) while their connection with
+            others can
+            be represented as an edge between nodes. <br>
+            Each node can be a structure that contains information like user’s id, name, gender, etc.
+        </p>
+    </div>
+    <div class="col-lg-4">
+        <img src="https://mathigon.org/content/graph-theory/images/websites.png" style="width: 70%;">
+    </div>
+</div>
+<br><br>
+
+<h2>Types of graphs</h2>
+<br>
+<h4>Undirected Graph</h4>
+<br>
+In an undirected graph, nodes are connected by edges that are all bidirectional. For example if an edge connects node 1
+and 2, we can traverse from node 1 to node 2, and from node 2 to 1.
+<br>
+<br>
+<h4>Directed Graph</h4>
+<br>
+In a directed graph, nodes are connected by directed edges – they only go in one direction. For example, if an edge
+connects node 1 and 2, but the arrow head points towards 2, we can only traverse from node 1 to node 2 – not in the
+opposite direction.
+<br><br><br>
+<h4>Graph Representations</h4>
+<br>
+<div class="row">
+    <div class="col-lg-4">
+        <br><br>
+        <img src="https://www.d.umn.edu/~gshute/cs2511/slides/graphs/images/adj-list-1.png" style="width: 100%;">
+    </div>
+    <div class="col-lg-8">
+        <h5>Adjacency List</h5><br>
+        <p> An adjacency list is an array A of separate lists. Each element of the array Ai is a list, which contains
+            all the vertices that are adjacent to vertex i.
+            <br>
+            For a weighted graph, the weight or cost of the edge is stored along with the vertex in the list using
+            pairs. In an undirected graph, if vertex j is in list Ai then vertex i will be in list Aj.
+            <br><br>
+            The space complexity of adjacency list is O(V + E) because in an adjacency list information is stored only
+            for those edges that actually exist in the graph. In a lot of cases, where a matrix is sparse using an
+            adjacency matrix may not be very useful. This is because using an adjacency matrix will take up a lot of
+            space where most of the elements will be 0, anyway. In such cases, using an adjacency list is better.
+            <br><br>
+            <strong>Note:</strong> A sparse matrix is a matrix in which most of the elements are zero, whereas a dense
+            matrix is a matrix in which most of the elements are non-zero.
+        </p>
+    </div>
+</div>
+
+<br><br>
+
+<div class="row">
+    <div class="col-lg-7">
+        <h5>Adjacency Matrix</h5><br>
+        <p>An adjacency matrix is a VxV binary matrix A. Element Ai,j is 1 if there is an edge from vertex i to vertex j
+            else Ai,j is 0. <br><br>
+            The adjacency matrix can also be modified for the weighted graph in which instead of storing 0 or 1 in Ai,j-
+            the weight or cost of the edge will be stored.
+            <br>
+            In an undirected graph, if Ai,j = 1, then Aj,i = 1. In a directed graph, if Ai,j = 1, then Aj,i may or may
+            not be 1.
+            <br><br>
+            Adjacency matrix provides constant time access (O(1)) to determine if there is an edge between two nodes. <br>
+            <strong>Note:</strong> A binary matrix is a matrix in which the cells can have only one of two possible values - either a 0 or 1.
+            <br><br>
+        </p>
+    </div>
+    <div class="col-lg-5">
+        <br><br>
+        <img src="https://i.imgur.com/GzU4BKw.png" alt="" style="width: 100%;">
+    </div>
+</div>
 
 {% endblock %}
