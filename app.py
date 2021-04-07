@@ -50,6 +50,12 @@ def getPrims():
     image = pybase64.b64encode(z)
     return image
 
+@app.route('/resetGraph', methods=["POST"])
+def resetGraph():
+    global g
+    g = Graph()
+
+    return '200'
 
 @app.route('/home')
 def home():

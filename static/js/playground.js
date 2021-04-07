@@ -55,5 +55,15 @@ function getPrims() {
     });
 }
 
+function resetGraph() {
+    $.ajax({
+        url: "resetGraph",
+        type: "POST",
+        success: function (data) {
+            $('#iframe-image').html('');
+        }
+    });
+}
+
 // <iframe src="" style="height: 480px; width:100%;" title="Iframe result"></iframe>
 
