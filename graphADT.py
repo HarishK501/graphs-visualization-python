@@ -91,7 +91,7 @@ class Graph:
         nx.draw_networkx(self.G, pos=self.pos, node_size=500,
                          node_color='g', font_color='white', edge_color='blue')
         arc_weight = nx.get_edge_attributes(self.G, 'weight')
-        nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight) #  bbox=dict(alpha=0)
+        nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight, bbox=dict(boxstyle="square,pad=0.3",fc="white",alpha=0.4)) #  bbox=dict(boxstyle="square,pad=0.3",alpha=0)
         
         plt.axis('off')
         plt.savefig('sample.png')
@@ -111,7 +111,7 @@ class Graph:
 
         arc_weight = nx.get_edge_attributes(self.G, 'weight')
         nx.draw_networkx(self.G, pos=self.pos, node_color='g', node_size=500, edge_color=edge_col, font_color='white', width=edge_width)
-        nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight)
+        nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight, bbox=dict(boxstyle="square,pad=0.3",fc="white",alpha=0.4))
         plt.axis('off')
 
         if algo == 'kruskal':
