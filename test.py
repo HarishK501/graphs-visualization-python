@@ -6,3 +6,6 @@ with open(r"sample.png","rb") as f:
     
 img = pybase64.b64encode(z)
 print(img)
+
+def fun (hello):
+    print(hello)

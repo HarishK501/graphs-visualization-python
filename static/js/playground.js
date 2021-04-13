@@ -11,6 +11,14 @@ function hideForm() {
     $("#add-edge-form-div").fadeOut();
 }
 
+function getImage(data) {
+    return '<img style="width:100%;" src="data:image/png;base64,'+ data +'">';
+}
+
+function resetImage() {
+    $('#iframe-image').html("<br><br><br><br><h4 style=\"text-align: center;color:orange;vertical-align: middle;\"><em>--- Your graph will be shown here ---</em></h4>");
+}
+
 $("#add-edge-form").submit(function (e) { 
     e.preventDefault();
     let a = document.getElementById("a-val").value;
@@ -23,7 +31,7 @@ $("#add-edge-form").submit(function (e) {
         data: JSON.stringify({ a:a, b:b, weight: w }),
         contentType: "application/json",
         success: function (data) {
-            $('#iframe-image').html('<p>640 x 480</p><img src="data:image/png;base64,'+ data +'">');
+            $('#iframe-image').html('<p>640 x 480</p>' + getImage(data));
             $(".input-vals").val("");
         }
 
@@ -37,7 +45,7 @@ function getKruskal() {
         url: "getKruskal",
         type: "POST",
         success: function (data) {
-            $('#iframe-image').html('<p>640 x 480</p><img src="data:image/png;base64,'+ data +'">');
+            $('#iframe-image').html('<p>640 x 480</p>' + getImage(data));
         }
     });
 }
@@ -47,10 +55,7 @@ function getPrims() {
         url: "getPrims",
         type: "POST",
         success: function (data) {
-            $('#iframe-image').html(
-                '<p>640 x 480</p>'+
-                '<img src="data:image/png;base64,'+ data +'">'
-            );
+            $('#iframe-image').html('<p>640 x 480</p>' + getImage(data));
         }
     });
 }
@@ -60,7 +65,7 @@ function resetGraph() {
         url: "resetGraph",
         type: "POST",
         success: function (data) {
-            $('#iframe-image').html('');
+            resetImage();
         }
     });
 }

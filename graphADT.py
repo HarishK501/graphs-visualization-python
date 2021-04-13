@@ -11,16 +11,12 @@ class Vertex:
         self.visited = False
         self.connectedTo = {}
         self.set = [self.id]   # for kruskal
-        self.dist = float("inf")
 
     def addNeighbor(self, nbr, weight):
         '''
         nbr - neighbour vertex
         '''
-        self.connectedTo[nbr] = weight
-
-    def __cmp__(self, v):
-        return self.dist < v.dist
+        self.connectedTo[nbr] = float(weight)
 
     def __str__(self):
         return str(self.id) + ' connectedTo: ' + str([x.id for x in self.connectedTo])
@@ -87,7 +83,6 @@ class Graph:
         return iter(self.vertList.values())
 
     def visualize(self):
-
         edges = []
         for edge in self.edgeList:
             edges.append((edge.front.id, edge.tail.id, edge.weight))
@@ -103,13 +98,22 @@ class Graph:
         plt.clf()
 
     def visualizeMST(self, mst_edges, algo):
-        edge_col = ['blue' if not(edge in mst_edges) and not(edge[::-1] in mst_edges) else 'red' for edge in self.G.edges()]
+        edge_col = []
+        edge_width = []
+
+        for edge in self.G.edges():
+            if not(edge in mst_edges) and not(edge[::-1] in mst_edges):
+                edge_col.append('blue')
+                edge_width.append(1)
+            else:
+                edge_col.append('red')
+                edge_width.append(3)
 
         arc_weight = nx.get_edge_attributes(self.G, 'weight')
-        nx.draw_networkx(self.G, pos=self.pos, node_color='g', node_size=500,
-                         edge_color=edge_col, font_color='white')
+        nx.draw_networkx(self.G, pos=self.pos, node_color='g', node_size=500, edge_color=edge_col, font_color='white', width=edge_width)
         nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight)
         plt.axis('off')
+
         if algo == 'kruskal':
             plt.title("Kruskal's MST")
         else:
@@ -117,6 +121,7 @@ class Graph:
         
         plt.savefig(algo + '.png')
         plt.clf()
+
         return
 
     def e_sort(self, e):
@@ -165,16 +170,16 @@ class Graph:
         # print(mst_edges)
         # print(self.G.edges())
         self.visualizeMST(mst_edges, "kruskal")
-        print(res)
+        # print(res)
 
         return 
 
-    def findStartVertex(self, mstSet):
+    def findStartVertex(self, mstSet, dist):
         minVertex = Vertex(float('-inf'))
-        minVertex.dist = float('inf')
+        dist[minVertex.id] = float('inf')
         for vertex in self.vertList.values():
             if vertex.id not in mstSet:
-                if vertex.dist < minVertex.dist:
+                if dist[vertex.id] < dist[minVertex.id]:
                     minVertex = vertex
 
         return minVertex
@@ -182,16 +187,24 @@ class Graph:
     def mstPrim(self):
         parent = {}
         mstSet = set()  # set of vertices that are a part of mst
+        dist = {}
         
-        self.vertList[0].dist = 0
+        tmp_i = 0
+        for vertex in self.vertList.values():
+            if tmp_i == 0:
+                dist[vertex.id] = 0
+                tmp_i = 1
+                continue
+            dist[vertex.id] = float("inf")
+
 
         while not len(mstSet) == len(self.vertList):
-            u = self.findStartVertex(mstSet)
+            u = self.findStartVertex(mstSet, dist)
             mstSet.add(u.id)
 
             for v in u.getConnections():
-                if u.connectedTo[v] < v.dist and v.id not in mstSet:
-                    v.dist = u.connectedTo[v]
+                if u.connectedTo[v] < dist[v.id] and v.id not in mstSet:
+                    dist[v.id] = u.connectedTo[v]
                     parent[v] = u
 
         mst_edges = []

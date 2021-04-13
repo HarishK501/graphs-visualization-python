@@ -79,25 +79,27 @@
             <h4>Minimum Spanning Tree</h4>
             <br>
             <button onclick="getKruskal()" class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Kruskal's MST</button>
-            <button onclick="getPrims()" class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Prim's MST</button><br><br>
-            <div id="mst-res">
-                <!--  -->
-            </div>
+            <button onclick="getPrims()" class="btn btn-sm btn-success"><i class="fas fa-code-branch"></i> Compute Prim's MST</button>
             <br><br><br>
             <h4>Shortest path</h4>
             <br>
             <button class="btn btn-sm btn-purple"><i class="fas fa-arrows-alt"></i> Dijkstra</button>
+            
+            <br><br><br>
             
         </div>
         <div id="result-area" class="bg-dark col-lg-6 right" style="padding:2% 5%">
             <h2 style="text-align: right;">Result</h2>
             <br><br>
             <div id="iframe-image">
-                <!-- <iframe src="D:\\6th sem\\15CSE387\\project\\graphs-visualization-python\\sample.png" style="height: 480px; width:100%;" title="Iframe result"></iframe> -->
+                
             </div>
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/playground.js') }}"></script>
+    <script>
+        resetImage();
+    </script>
 </body>
 
 </html>
