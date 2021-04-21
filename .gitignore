@@ -1,4 +1,4 @@
-graphs-venv/
+graphs-venv*/
 __pycache__/
 sample*
 .vscode
