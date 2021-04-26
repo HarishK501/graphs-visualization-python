@@ -21,10 +21,19 @@ def playground():
 def addEdge():
     x = request.get_json()
     g.addEdge(int(x['a']), int(x['b']), int(x['weight']))
-
     # g.G = nx.Graph()
     g.visualize()
     # print([e for e in g.G.edges])
+    with open(r"sample.png", "rb") as f:
+        z = f.read()
+
+    image = pybase64.b64encode(z)
+    return image
+
+@app.route('/dijkstra', methods=["POST"])
+def dijkstra():
+    x = request.get_json()
+    g.dijkstra(src=int(x['src']), dest=int(x['dest']))
 
     with open(r"sample.png", "rb") as f:
         z = f.read()

@@ -51,14 +51,14 @@
                             <label for="a-val">a = </label>
                             <input type="number" class="form-control-sm input-vals" name="a-val" id="a-val" required><br><br>
     
-                            <label for="b-val">b = </label>
+                            <label for="s2-val">b = </label>
                             <input type="number" class="form-control-sm input-vals" name="b-val" id="b-val" required><br><br>
     
                             <label for="w-val">w = </label>
                             <input type="number" class="form-control-sm input-vals" name="w-val" id="w-val" required><br><br>
 
                             <button type="submit" id="add-form-button" class="btn btn-sm btn-warning"><i class="fas fa-plus"></i> Add</button>
-                            <button type="button" onclick="hideForm()" class="btn btn-sm btn-danger"><i class="fas fa-times"></i> Cancel</button>
+                            <button type="button" onclick="hideForm(1)" class="btn btn-sm btn-danger"><i class="fas fa-times"></i> Cancel</button>
                             
                         </form>
                         
@@ -83,7 +83,22 @@
             <br><br><br>
             <h4>Shortest path</h4>
             <br>
-            <button class="btn btn-sm btn-purple"><i class="fas fa-arrows-alt"></i> Dijkstra</button>
+            <button id="dijkstra-control" class="btn btn-sm btn-purple" onclick="showDijkstraForm()"><i class="fas fa-arrows-alt"></i> Dijkstra</button>
+            <div id="dijkstra-form-div" style="display: none;">
+                <br>
+                <form id="dijkstra-form" action="">
+                    <label for="s1-val">start = </label>
+                    <input type="number" class="form-control-sm input-vals" name="s1-val" id="s1-val" required><br><br>
+
+                    <label for="s2-val">dest = </label>
+                    <input type="number" class="form-control-sm input-vals" name="s2-val" id="s2-val" required><br><br>
+
+                    <button type="submit" id="dijkstra-form-button" class="btn btn-sm btn-primary"><i class="fas fa-search"></i> Find</button>
+                    <button type="button" onclick="hideForm(2)" class="btn btn-sm btn-dark"><i class="fas fa-times"></i> Close</button>
+                    
+                </form>
+
+            </div>
             
             <br><br><br>
             

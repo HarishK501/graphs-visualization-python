@@ -73,8 +73,8 @@ class Graph:
         if t not in self.vertList:
             self.addVertex(t)
         self.edgeList.append(Edge(self.vertList[f], self.vertList[t], cost))
-        self.vertList[f].addNeighbor(self.vertList[t], cost)
-        self.vertList[t].addNeighbor(self.vertList[f], cost)
+        self.vertList[f].addNeighbor(self.vertList[t].id, cost)
+        self.vertList[t].addNeighbor(self.vertList[f].id, cost)
 
     def getVertices(self):
         return self.vertList.keys()
@@ -88,8 +88,7 @@ class Graph:
             edges.append((edge.front.id, edge.tail.id, edge.weight))
         self.G.add_weighted_edges_from(edges)
         self.pos = nx.shell_layout(self.G)
-        nx.draw_networkx(self.G, pos=self.pos, node_size=500,
-                         node_color='g', font_color='white', edge_color='blue')
+        nx.draw_networkx(self.G, pos=self.pos, node_size=500, node_color='g', font_color='white', edge_color='blue')
         arc_weight = nx.get_edge_attributes(self.G, 'weight')
         nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight, bbox=dict(boxstyle="square,pad=0.3",fc="white",alpha=0.4)) #  bbox=dict(boxstyle="square,pad=0.3",alpha=0)
         
@@ -120,6 +119,43 @@ class Graph:
             plt.title("Prim's MST")
         
         plt.savefig(algo + '.png')
+        plt.clf()
+
+        return
+
+    def visualizeShortestPath(self, src_nodes, st_nodes, edges, algo):
+        edge_col = []
+        edge_width = []
+        node_col = []
+
+        for node in self.G.nodes():
+            if str(node) not in st_nodes:
+                node_col.append('g')
+            else:
+                if str(node) in src_nodes:
+                    node_col.append('black')
+                else:
+                    node_col.append('r')
+
+        for edge in self.G.edges():
+            if not(edge in edges) and not(edge[::-1] in edges):
+                edge_col.append('blue')
+                edge_width.append(1)
+            else:
+                edge_col.append('red')
+                edge_width.append(3)
+
+        arc_weight = nx.get_edge_attributes(self.G, 'weight')
+        nx.draw_networkx(self.G, pos=self.pos, node_color=node_col, node_size=500, edge_color=edge_col, font_color='white', width=edge_width)
+        nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight, bbox=dict(boxstyle="square,pad=0.3",fc="white",alpha=0.4))
+        plt.axis('off')
+
+        if algo == 'dijkstra':
+            plt.title("Dijkstra's shortest path")
+        else:
+            plt.title("Shortest path")
+
+        plt.savefig('sample.png')
         plt.clf()
 
         return
@@ -203,8 +239,9 @@ class Graph:
             mstSet.add(u.id)
 
             for v in u.getConnections():
-                if u.connectedTo[v] < dist[v.id] and v.id not in mstSet:
-                    dist[v.id] = u.connectedTo[v]
+                v = self.vertList[v]
+                if u.connectedTo[v.id] < dist[v.id] and v.id not in mstSet:
+                    dist[v.id] = u.connectedTo[v.id]
                     parent[v] = u
 
         mst_edges = []
@@ -212,8 +249,68 @@ class Graph:
             u = parent[vertex]
             v = vertex
             mst_edges.append((u.id, v.id))
-            # print("({},{}, w={})".format(u.id, v.id, u.connectedTo[v]))
 
         self.visualizeMST(mst_edges, "prims")
 
         return
+
+    def dijkstra(self, src, dest):
+        dist = {}
+        visited = {}
+
+        cameFrom = {}
+
+        visited[src] = True
+
+        src: Vertex = self.vertList[src]
+        dest: Vertex = self.vertList[dest]
+
+        for vertex in self.vertList.values():
+            if vertex.id == src.id:
+                continue
+
+            dist_from_src = src.connectedTo.get(vertex.id)
+            if dist_from_src is None:
+                dist[vertex.id] = float("inf")
+            else:
+                dist[vertex.id] = dist_from_src
+                cameFrom[vertex.id] = src.id
+
+        while not len(visited) == len(self.vertList):
+            min_dist_vertex = None
+            min_dist = float("inf")
+
+            for val in dist.keys():
+                if visited.get(val) == True:
+                    continue
+
+                if dist[val] < min_dist:
+                    min_dist = dist[val]
+                    min_dist_vertex = self.vertList[val]
+
+            visited[min_dist_vertex.id] = True
+
+            for nbr in min_dist_vertex.connectedTo.keys():
+                if nbr == src.id:
+                    continue
+
+                if dist[min_dist_vertex.id] + min_dist_vertex.connectedTo[nbr] < dist[nbr]:
+                    dist[nbr] = dist[min_dist_vertex.id] + min_dist_vertex.connectedTo[nbr]
+                    cameFrom[nbr] = min_dist_vertex.id
+                # dist[nbr] = min(dist[min_dist_vertex.id] + min_dist_vertex.connectedTo[nbr], dist[nbr])
+        # print(cameFrom)
+
+        sh_path_edges = []
+        sh_path_nodes = set()
+        sh_src_nodes = [str(src.id), str(dest.id)]
+        key = dest.id
+
+        while not key == src.id:
+            sh_path_edges.append((cameFrom[key], key))
+            sh_path_nodes.add(str(key))
+            sh_path_nodes.add(str(cameFrom[key]))
+            key = cameFrom[key]
+
+        self.visualizeShortestPath(sh_src_nodes, sh_path_nodes, sh_path_edges, "dijkstra")
+
+        return 
