@@ -314,3 +314,79 @@ class Graph:
         self.visualizeShortestPath(sh_src_nodes, sh_path_nodes, sh_path_edges, "dijkstra")
 
         return 
+
+    def createAdjMatrix(self):
+        nodes=[]
+        matrix=[]
+        #print(self.edgeList)
+        for item in self.edgeList:
+            nodes.append(item.front.id)
+            nodes.append(item.tail.id)
+        nodes = sorted(list(set(nodes)))
+        nodes = [(i,nodes[i]) for i in range(len(nodes))]
+        for r in range(len(nodes)+1):
+            row = []
+            for c in range(len(nodes)+1):
+                row.append(0)
+            matrix.append(row)              
+        for item in nodes:
+            matrix[item[0]+1][0]=item[1]
+            matrix[0][item[0]+1]=item[1]
+        
+        for ele in self.edgeList:
+            row=col=0
+            for i in range(len(nodes)):
+                if ele.front.id==nodes[i][1]:
+                    row=nodes[i][0]+1
+                    continue
+                if ele.tail.id==nodes[i][1]:
+                    col=nodes[i][0]+1
+                if row!=0 and col!=0:
+                    matrix[row][col]=ele.weight
+               
+        matrix=np.array(matrix)
+        matrix2=np.transpose(matrix)
+        for i in range(1,len(matrix)):
+            for j in range(1,len(matrix[0])):
+                matrix[i][j]=int(matrix[i][j])+int(matrix2[i][j])
+        
+        for i in range(1,len(matrix)):
+            for j in range(1,len(matrix[0])):
+                if int(matrix[i][j])==0 and i!=j:
+                    matrix[i][j]=INF
+        
+        #for i in range(len(matrix)):
+            #for j in range(len(matrix[0])):
+                #print(matrix[i][j],end=" ")
+            #print()
+        self.adjMatrix=matrix
+        return matrix
+
+
+    def sptFW(self):
+        adj=self.createAdjMatrix()
+        dist = list(map(lambda i: list(map(lambda j: j, i)), adj))
+        temp=[]
+        for each in dist:
+            temp.append(each[0])
+        dist=np.delete(dist,0,axis=0)
+        dist=np.delete(dist,0,axis=1)
+        V=len(self.adjMatrix)-1
+        for k in range(V):
+            for i in range(V):
+                for j in range(V):
+                    dist[i][j] = min(int(dist[i][j]),int(dist[i][k]) + int(dist[k][j]))
+        print ("Following matrix shows the shortest distances between every pair of vertices")
+        for each in temp:
+            print(each,end="\t")
+        print()
+        temp.pop(0)
+        for i,each in zip(range(V),temp):
+            print(each,end="")
+            for j in range(V):
+                if(dist[i][j] == INF):
+                    print("\t","INF",end="")
+                else:
+                    print("\t",dist[i][j],end="")
+                if j == V-1:
+                    print()
