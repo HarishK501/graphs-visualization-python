@@ -18,10 +18,12 @@ def testGraph():
 
     g.visualize()
 
-    print("Kruskal")
-    g.mstKruskal()
-    print("\nPrim's")
-    g.mstPrim()
+    # print("Kruskal")
+    # g.mstKruskal()
+    # print("\nPrim's")
+    # g.mstPrim()
+    g.floydWarshall()
+
 
 
 def main():

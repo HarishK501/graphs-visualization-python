@@ -63,7 +63,7 @@ $("#dijkstra-form").submit(function (e) {
         data: JSON.stringify({ src: s1, dest: s2 }),
         contentType: "application/json",
         success: function (data) {
-            $("#iframe-image").html("<p>640 x 480</p>" + getImage(data));
+            $("#iframe-image").html("<h4>Dijkstra's shortest path</h4><br>" + getImage(data));
             $(".input-vals").val("");
         },
     });
@@ -74,7 +74,11 @@ function getKruskal() {
         url: "getKruskal",
         type: "POST",
         success: function (data) {
-            $("#iframe-image").html("<p>640 x 480</p>" + getImage(data));
+            // console.log(data['text']);
+            $("#iframe-image").html("<h4>Kruskal's MST</h4><br>" + getImage(data['img']));
+            let resultTextHeader = "<h4>Steps</h4><br>"
+            $("#result-text").html(resultTextHeader+data['text']);
+            
         },
     });
 }
@@ -84,7 +88,7 @@ function getPrims() {
         url: "getPrims",
         type: "POST",
         success: function (data) {
-            $("#iframe-image").html("<p>640 x 480</p>" + getImage(data));
+            $("#iframe-image").html("<h4>Prim's MST</h4><br>" + getImage(data));
         },
     });
 }
@@ -95,16 +99,6 @@ function resetGraph() {
         type: "POST",
         success: function (data) {
             resetImage();
-        },
-    });
-}
-
-function dijkstra() {
-    $.ajax({
-        url: "dijkstra",
-        type: "POST",
-        success: function (data) {
-            $("#iframe-image").html("<p>640 x 480</p>" + getImage(data));
         },
     });
 }

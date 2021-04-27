@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, jsonify, request, make_response
 from flask.helpers import send_file
 
 
@@ -45,11 +45,18 @@ def dijkstra():
 @app.route('/getKruskal', methods=["POST"])
 def getKruskal():
     text = g.mstKruskal()
+    # print(text)
     with open(r"kruskal.png", "rb") as f:
         z = f.read()
 
-    image = pybase64.b64encode(z)
-    return image
+    image = pybase64.b64encode(z).decode('ascii')
+
+    result = {
+        'text': text,
+        'img': image
+    }
+    res = make_response(jsonify(result), 200)
+    return res
 
 
 @app.route('/getPrims', methods=["POST"])

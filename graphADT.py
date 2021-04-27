@@ -1,6 +1,8 @@
+import numpy as np
 import networkx as nx
 import matplotlib
 matplotlib.use('Agg')
+INF = 99999
 
 
 import matplotlib.pyplot as plt
@@ -113,10 +115,10 @@ class Graph:
         nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight, bbox=dict(boxstyle="square,pad=0.3",fc="white",alpha=0.4))
         plt.axis('off')
 
-        if algo == 'kruskal':
-            plt.title("Kruskal's MST")
-        else:
-            plt.title("Prim's MST")
+        # if algo == 'kruskal':
+        #     plt.title("Kruskal's MST")
+        # else:
+        #     plt.title("Prim's MST")
         
         plt.savefig(algo + '.png')
         plt.clf()
@@ -150,10 +152,10 @@ class Graph:
         nx.draw_networkx_edge_labels(self.G, pos=self.pos,font_size=13, edge_labels=arc_weight, bbox=dict(boxstyle="square,pad=0.3",fc="white",alpha=0.4))
         plt.axis('off')
 
-        if algo == 'dijkstra':
-            plt.title("Dijkstra's shortest path")
-        else:
-            plt.title("Shortest path")
+        # if algo == 'dijkstra':
+        #     plt.title("Dijkstra's shortest path")
+        # else:
+        #     plt.title("Shortest path")
 
         plt.savefig('sample.png')
         plt.clf()
@@ -169,8 +171,14 @@ class Graph:
                 return i
 
     def mstKruskal(self):
-
+        steps = ""
+        br = "<br><br>"
         edgeListAsc = sorted(self.edgeList, key=self.e_sort)
+        steps += "1. Sort all the edges in non-decreasing order of their weights."
+        steps += br
+        steps += "2. Pick the smallest edge. Check if it forms a cycle with the spanning tree formed so far. If cycle is not formed, include this edge. Else, discard it. Repeat this step for all edges."
+        steps += br
+
         MST = []
 
         disjointSet = []
@@ -178,17 +186,18 @@ class Graph:
             self.vertList[i].set = [self.vertList[i].id]
             disjointSet.append(self.vertList[i].set)
 
-        # now,disjointSet contains=>[[0],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]
-
         for e in edgeListAsc:
-
+            steps += "→ Consider the edge {}.".format(str(e)) + br
             s1 = self.findset(e.front.getId(), disjointSet)
 
             s2 = self.findset(e.tail.getId(), disjointSet)
 
             if s1 == s2:
+                steps += "→ Adding this edge will result in a cycle in the spanning tree. So, it is discarded."+br
                 continue
+
             if s1 != s2:
+                steps += "→ Adding this edge will not create a cycle in the spanning tree. So, it is included in the spanning tree."+br
                 MST.append(e)
                 if len(s1) > len(s2) or len(s1) == len(s2):
                     disjointSet.remove(s2)
@@ -197,18 +206,14 @@ class Graph:
                     disjointSet.remove(s1)
                     self.findset(e.tail.getId(), disjointSet).extend(s1)
 
+        steps += "That's it! We have our spanning tree that is obtained by Kruskal's algorithm."
         mst_edges = []  # for visualization purpose
-        res = ""
         for i in MST:
-            res += str(i) + " <br>"
             mst_edges.append((i.front.id, i.tail.id))
 
-        # print(mst_edges)
-        # print(self.G.edges())
         self.visualizeMST(mst_edges, "kruskal")
-        # print(res)
 
-        return 
+        return steps
 
     def findStartVertex(self, mstSet, dist):
         minVertex = Vertex(float('-inf'))
@@ -363,15 +368,15 @@ class Graph:
         return matrix
 
 
-    def sptFW(self):
-        adj=self.createAdjMatrix()
+    def floydWarshall(self):
+        adj = self.createAdjMatrix()
         dist = list(map(lambda i: list(map(lambda j: j, i)), adj))
-        temp=[]
+        temp = []
         for each in dist:
             temp.append(each[0])
-        dist=np.delete(dist,0,axis=0)
-        dist=np.delete(dist,0,axis=1)
-        V=len(self.adjMatrix)-1
+        dist = np.delete(dist,0,axis=0)
+        dist = np.delete(dist,0,axis=1)
+        V = len(self.adjMatrix)-1
         for k in range(V):
             for i in range(V):
                 for j in range(V):
