@@ -331,7 +331,7 @@ class Graph:
 
         self.visualizeShortestPath(sh_src_nodes, sh_path_nodes, sh_path_edges, "dijkstra")
 
-        return 
+        return dist[dest.id]
 
     def createAdjMatrix(self):
         nodes=[]

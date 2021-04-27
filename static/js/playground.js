@@ -83,8 +83,9 @@ $("#dijkstra-form").submit(function (e) {
             data: JSON.stringify({ src: s1, dest: s2 }),
             contentType: "application/json",
             success: function (data) {
-                $("#iframe-image").html("<h4>Dijkstra's shortest path</h4><br>" + getImage(data));
+                $("#iframe-image").html("<h4>Dijkstra's shortest path</h4><br>" + getImage(data['img']));
                 $(".input-vals").val("");
+                $("#result-text").html('<h5 style="display: inline; margin-right:5%">Path distance = </h5>' + String(data['dist']) + "<br><br><br>");
             },
         });
     }

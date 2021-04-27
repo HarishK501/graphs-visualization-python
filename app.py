@@ -41,13 +41,18 @@ def getNodes():
 @app.route('/dijkstra', methods=["POST"])
 def dijkstra():
     x = request.get_json()
-    g.dijkstra(src=int(x['src']), dest=int(x['dest']))
+    dist = g.dijkstra(src=int(x['src']), dest=int(x['dest']))
 
     with open(r"sample.png", "rb") as f:
         z = f.read()
 
-    image = pybase64.b64encode(z)
-    return image
+    image = pybase64.b64encode(z).decode('ascii');
+    result = {
+        'dist': dist,
+        'img': image
+    }
+    res = make_response(jsonify(result), 200)
+    return res
 
 
 @app.route('/getKruskal', methods=["POST"])
