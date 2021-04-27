@@ -193,11 +193,11 @@ class Graph:
             s2 = self.findset(e.tail.getId(), disjointSet)
 
             if s1 == s2:
-                steps += "→ Adding this edge will result in a cycle in the spanning tree. So, it is discarded."+br
+                steps += "→ Adding this edge will result in a cycle in the spanning tree. So, it is discarded." + br
                 continue
 
             if s1 != s2:
-                steps += "→ Adding this edge will not create a cycle in the spanning tree. So, it is included in the spanning tree."+br
+                steps += "→ Adding this edge will not create a cycle in the spanning tree. So, it is included in the spanning tree." + br
                 MST.append(e)
                 if len(s1) > len(s2) or len(s1) == len(s2):
                     disjointSet.remove(s2)
@@ -206,7 +206,8 @@ class Graph:
                     disjointSet.remove(s1)
                     self.findset(e.tail.getId(), disjointSet).extend(s1)
 
-        steps += "That's it! We have our spanning tree that is obtained by Kruskal's algorithm."
+        steps += "That's it! We have our spanning tree that is obtained by Kruskal's algorithm." + br + br
+
         mst_edges = []  # for visualization purpose
         for i in MST:
             mst_edges.append((i.front.id, i.tail.id))
@@ -226,6 +227,18 @@ class Graph:
         return minVertex
 
     def mstPrim(self):
+        br = "<br><br>"
+        steps = ""
+        steps += "1. Create a set S that keeps track of vertices already included in MST." + br
+        steps += "2. Assign a distance value to all vertices in the input graph." + br 
+        steps += "3. Initialize all distance values as &#8734;. Assign distance value as 0 for the first vertex so that it is selected first." + br
+        steps += "4. Repeat the following steps until all vertices are included in S." + br
+        steps += " a) Pick a vertex 'u' which is not there in S and has minimum distance value." + br
+        steps += " b) Add 'u' to the set S." + br
+        steps += " c) Update the distance values of all adjacent vertices. For every adjacent vertex v, if weight of edge u--v is less than the previous distance value of v, update the distance value as weight of u--v." + br
+
+        
+
         parent = {}
         mstSet = set()  # set of vertices that are a part of mst
         dist = {}
@@ -257,7 +270,7 @@ class Graph:
 
         self.visualizeMST(mst_edges, "prims")
 
-        return
+        return steps
 
     def dijkstra(self, src, dest):
         dist = {}

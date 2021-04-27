@@ -30,6 +30,14 @@ def addEdge():
     image = pybase64.b64encode(z)
     return image
 
+@app.route('/getNodes', methods=["POST"])
+def getNodes():
+    result = {
+        'nodes': list(g.G.nodes())
+    }
+    res = make_response(jsonify(result), 200)
+    return res
+
 @app.route('/dijkstra', methods=["POST"])
 def dijkstra():
     x = request.get_json()
@@ -61,12 +69,18 @@ def getKruskal():
 
 @app.route('/getPrims', methods=["POST"])
 def getPrims():
-    g.mstPrim()
+    text = g.mstPrim()
     with open(r"prims.png", "rb") as f:
         z = f.read()
 
-    image = pybase64.b64encode(z)
-    return image
+    image = pybase64.b64encode(z).decode('ascii')
+    
+    result = {
+        'text': text,
+        'img': image
+    }
+    res = make_response(jsonify(result), 200)
+    return res
 
 
 @app.route('/resetGraph', methods=["POST"])

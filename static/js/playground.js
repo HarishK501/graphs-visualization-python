@@ -24,6 +24,20 @@ function hideForm(choice) {
     }
 }
 
+function updateNodesDropdownMenu(){
+    $.ajax({
+        url: "getNodes",
+        type: "POST",
+        success: function (data) {
+            let options = "<option selected disabled hidden style='display: none' value=''></option>";
+            for(let i=0; i < data['nodes'].length; i++) {
+                options += '<option value="'+ String(data['nodes'][i]) +'">'+ String(data['nodes'][i]) +'</option>'
+            }
+            $(".nodes-dropdown").html(options);
+        },
+    });
+}
+
 function getImage(data) {
     return '<img style="width:100%;" src="data:image/png;base64,' + data + '">';
 }
@@ -48,6 +62,8 @@ $("#add-edge-form").submit(function (e) {
         success: function (data) {
             $("#iframe-image").html("<p>640 x 480</p>" + getImage(data));
             $(".input-vals").val("");
+            $("#result-text").html("");
+            updateNodesDropdownMenu();
         },
     });
 });
@@ -57,16 +73,23 @@ $("#dijkstra-form").submit(function (e) {
     let s1 = document.getElementById("s1-val").value;
     let s2 = document.getElementById("s2-val").value;
 
-    $.ajax({
-        url: "dijkstra",
-        type: "POST",
-        data: JSON.stringify({ src: s1, dest: s2 }),
-        contentType: "application/json",
-        success: function (data) {
-            $("#iframe-image").html("<h4>Dijkstra's shortest path</h4><br>" + getImage(data));
-            $(".input-vals").val("");
-        },
-    });
+    if (s1 == s2) {
+        alert("Source and destination are same!");
+    }
+    else {
+        $.ajax({
+            url: "dijkstra",
+            type: "POST",
+            data: JSON.stringify({ src: s1, dest: s2 }),
+            contentType: "application/json",
+            success: function (data) {
+                $("#iframe-image").html("<h4>Dijkstra's shortest path</h4><br>" + getImage(data));
+                $(".input-vals").val("");
+            },
+        });
+    }
+
+    
 });
 
 function getKruskal() {
@@ -88,7 +111,9 @@ function getPrims() {
         url: "getPrims",
         type: "POST",
         success: function (data) {
-            $("#iframe-image").html("<h4>Prim's MST</h4><br>" + getImage(data));
+            $("#iframe-image").html("<h4>Prim's MST</h4><br>" + getImage(data['img']));
+            let resultTextHeader = "<h4>Steps</h4><br>"
+            $("#result-text").html(resultTextHeader+data['text']);
         },
     });
 }
@@ -99,6 +124,9 @@ function resetGraph() {
         type: "POST",
         success: function (data) {
             resetImage();
+            $(".input-vals").val("");
+            $("#result-text").html("");
+            updateNodesDropdownMenu();
         },
     });
 }

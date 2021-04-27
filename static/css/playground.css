@@ -33,6 +33,10 @@ i {
     width: 40%;
 }
 
+.nodes-dropdown {
+    width: 10%;
+}
+
 
 /*Remove the scrollbar from Chrome, Safari, Edge and IE*/
 ::-webkit-scrollbar {
@@ -42,3 +46,4 @@ i {
 * {
   -ms-overflow-style: none !important;
 }
+
