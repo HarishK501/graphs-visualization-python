@@ -99,7 +99,7 @@ class Graph:
         plt.clf()
 
     def visualizeMST(self, mst_edges, algo):
-        edge_col = []
+        edge_col = [] # edge_color
         edge_width = []
 
         for edge in self.G.edges():

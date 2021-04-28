@@ -98,8 +98,15 @@ def resetGraph():
 
 @app.route('/home')
 def home():
-    return render_template("index.html")
+    return render_template("index.html", title="Graphs - Home")
 
+@app.route('/mst')
+def mstDoc():
+    return render_template("mst.html", title="Graphs - MST")
+
+@app.route('/shortest-path')
+def shortestPathDoc():
+    return render_template("shortest-path.html", title="Graphs - Shortest paths")
 
 @app.route('/')
 def root():

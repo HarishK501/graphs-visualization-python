@@ -1,17 +1,5 @@
-<html>
-    <head>
-        <title>
-            Shortest path
-        </title>
-        <link rel="import" href="Mainpage.html">
-        <link rel="stylesheet" href="Graph_style.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
-    </head>
-    <body>
-        <p><h1 align = "center">Shortest path</h1></p>
+{% extends 'base.html' %} {% block content %}
+        <p><h1>Shortest path</h1></p>
         <p>
             In the shortest path tree we start with a source node s.
             For any other node v in graph G, the shortest path between s and v is a path such that the total weight of the edges along this path
@@ -29,5 +17,4 @@
             <br><br>
             
              </p>  
-    </body>
-</html>
+             {% endblock %}
