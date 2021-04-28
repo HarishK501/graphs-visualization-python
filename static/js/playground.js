@@ -90,7 +90,6 @@ $("#dijkstra-form").submit(function (e) {
         });
     }
 
-    
 });
 
 function getKruskal() {
