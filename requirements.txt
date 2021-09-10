@@ -11,7 +11,6 @@ MarkupSafe==1.1.1
 matplotlib==3.3.4
 networkx==2.5
 numpy==1.20.1
-Pillow==8.2.0
 pybase64==1.1.4
 pycodestyle==2.6.0
 pyparsing==2.4.7
